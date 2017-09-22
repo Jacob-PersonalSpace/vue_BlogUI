@@ -1,0 +1,17 @@
+{
+  "name": "vue_BlogUI",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Jacob-PersonalSpace/vue_BlogUI.git",
+  "author": "GFG1\\fengjac <fengjac@esquel.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack src/main.js dist/main.js"
+  },
+  "dependencies": {
+    "vue": "^2.4.4"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}

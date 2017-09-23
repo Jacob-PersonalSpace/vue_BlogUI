@@ -1,8 +1,8 @@
-const Vue = require('vue/dist/vue.common')
+import Vue from 'vue'
+import Hello from './components/Hello'
 
 new Vue({
     el: '#app',
-    data: {
-        message: 'Hello World!'
-    }
+    template: '<div><hello></hello></div>',
+    components: { Hello }
 })

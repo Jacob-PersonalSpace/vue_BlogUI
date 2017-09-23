@@ -11,6 +11,7 @@ module.exports = {
         alias: {
             vue: 'vue/dist/vue.common',
             components: path.join(root, 'src/components'),
+            views: path.join(root, 'src/views'),
             styles: path.join(root, 'src/styles'),
             constants: path.join(root, 'src/constants'),
         },

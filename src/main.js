@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import Hello from './components/Hello'
+import router from './router/index'
 
 new Vue({
     el: '#app',
-    template: '<div><hello></hello></div>',
-    components: { Hello }
+    router: router,
+    render: h => h('router-view')
 })

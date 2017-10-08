@@ -11,7 +11,7 @@ module.exports = merge(baseConfig, {
         'webpack/hot/dev-server',
         path.join(root, 'src/main.js')
     ],
-    devtool: 'source-map',
+    devtool: '#source-map',
     devServer: {
         contentBase: path.join(root, '../dist'),
         historyApiFallback: true,
@@ -21,6 +21,11 @@ module.exports = merge(baseConfig, {
         progress: true,
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"development"',
+            },
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(root, 'index.html'),

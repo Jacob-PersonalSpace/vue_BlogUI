@@ -12,7 +12,7 @@
                 <div class="b">
                     <input v-model="newUserName" type="text" placeholder="username" />
                 </div>
-                <!-- <div class="c">
+                <div class="c">
                     <span>password</span>
                 </div>
                 <div class="d">
@@ -23,10 +23,11 @@
                 </div>
                 <div class="f">
                     <input v-model="newRePassword" type="password" placeholder="rePassword" />
-                </div> -->
+                    <span v-if="!isSamePassword" class="noticemessage">Notice: New password and repassword is not match</span>
+                </div>
             </div>
             <div class="footer">
-                <button>
+                <button @click="regist({canRegist})">
                     <span>Regist</span>
                 </button>
                 <button @click="reset">
@@ -38,7 +39,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { CHANGE_USERNAMEVALUE } from '../store/types'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
     computed: {
@@ -47,19 +49,34 @@ export default {
                 return this.$store.state.register.registFormData.newUserName
             },
             set(value) {
-                this.$store.commit('CHANGE_USERNAMEVALUE', { newUserName: value })
+                this.updateRegistFormData({ newUserName: value })
             }
         },
-        // ...mapState({
-        //     newUserName: state => state.register.newUserName,
-        //     newPassword: state => state.register.newPassword,
-        //     newRePassword: state => state.register.newRePassword,
-        // }),
-        ...mapGetters({
-            isSamePassword: 'isSamePassword',
-        }),
+        newPassword: {
+            get() {
+                return this.$store.state.register.registFormData.newPassword
+            },
+            set(value) {
+                this.updateRegistFormData({ newPassword: value })
+            }
+        },
+        newRePassword: {
+            get() {
+                return this.$store.state.register.registFormData.newRePassword
+            },
+            set(value) {
+                this.updateRegistFormData({ newRePassword: value })
+            }
+        },
+        ...mapGetters([
+            'isSamePassword',
+            'canRegist',
+        ]),
     },
     methods: {
+        ...mapMutations({
+            updateRegistFormData: CHANGE_USERNAMEVALUE,
+        }),
         ...mapActions([
             'regist',
             'reset',
@@ -72,6 +89,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.noticemessage {
+    color: red !important;
+    font-size: 12px;
+}
+
 .centerContainer {
     position: absolute;
     width: 30%;

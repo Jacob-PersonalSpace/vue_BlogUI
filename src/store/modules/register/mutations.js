@@ -3,16 +3,17 @@ import { REGIST, RESET, CHANGE_USERNAMEVALUE } from '../../types'
 
 export default {
     [RESET](state) {
-        // state.newUserName = '',
-        // state.newPassword = '',
-        // state.newRePassword = ''
-        state.registFormData = _.merge({}, state.registFormData, {
+        state.registFormData = {
+            ...state.registFormData,
             newUserName: '',
             newPassword: '',
             newRePassword: '',
-        })
+        }
     },
-    [CHANGE_USERNAMEVALUE](state, obj) {
-        state.registFormData = _.merge({}, state.registFormData, obj)
+    [CHANGE_USERNAMEVALUE](state, payload) {
+        state.registFormData = { ...state.registFormData, ...payload }
+    },
+    [REGIST](state, payload) {
+        console.log('????', payload.canRegist)
     },
 }

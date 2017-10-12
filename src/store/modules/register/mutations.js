@@ -1,5 +1,12 @@
 import _ from 'lodash'
-import { REGIST, RESET, CHANGE_USERNAMEVALUE } from '../../types'
+import {
+    SUCCESS_REGIST,
+    REQUEST_REGIST,
+    FAILURE_REGIST,
+    RESET,
+    CHANGE_FORMDATAVALUE,
+    POPUP_MESSAGE,
+} from '../../types'
 
 export default {
     [RESET](state) {
@@ -10,10 +17,31 @@ export default {
             newRePassword: '',
         }
     },
-    [CHANGE_USERNAMEVALUE](state, payload) {
-        state.registFormData = { ...state.registFormData, ...payload }
+    [CHANGE_FORMDATAVALUE](state, payload) {
+        state.registFormData = {
+            ...state.registFormData,
+            ...payload,
+        }
     },
-    [REGIST](state, payload) {
-        console.log('????', payload.canRegist)
+    [REQUEST_REGIST](state) {
+        state.isRegisting = true;
+    },
+    [SUCCESS_REGIST](state, payload) {
+        state.isRegisting = false;
+        state.registFormData = {
+            ...state.registFormData,
+            newUserName: '',
+            newPassword: '',
+            newRePassword: '',
+        }
+    },
+    [FAILURE_REGIST]({ isRegisting, shouldPopup }, payload) {
+        isRegisting = false;
+    },
+    [POPUP_MESSAGE](state, payload) {
+        state.popupFormData = {
+            ...state.popupFormData,
+            ...payload,
+        }
     },
 }

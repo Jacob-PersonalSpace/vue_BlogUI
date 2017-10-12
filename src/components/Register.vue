@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-success btn-lg" @click="back()">
+        <button class="btn btn-success btn-lg" @click="backToLogin()">
             <span>Back To Login</span>
         </button>
 
@@ -27,10 +27,10 @@
                 </div>
             </div>
             <div class="footer">
-                <button @click="regist({canRegist})">
+                <button @click="checkFormDataBeforeRegist()">
                     <span>Regist</span>
                 </button>
-                <button @click="reset">
+                <button @click="reset()">
                     <span>Reset</span>
                 </button>
             </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { CHANGE_USERNAMEVALUE } from '../store/types'
+import { CHANGE_FORMDATAVALUE } from '../store/types'
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -75,13 +75,39 @@ export default {
     },
     methods: {
         ...mapMutations({
-            updateRegistFormData: CHANGE_USERNAMEVALUE,
+            updateRegistFormData: CHANGE_FORMDATAVALUE,
         }),
         ...mapActions([
             'regist',
             'reset',
+            'popupMessage',
         ]),
-        back() {
+        checkFormDataBeforeRegist() {
+            try {
+                if (this.canRegist) {
+                    this.regist()
+                } else {
+                    if (!this.newUserName) {
+                        throw new Error('User name is required.')
+                    } else if (!this.newPassword) {
+                        throw new Error('New password is required.')
+                    } else if (!this.newRePassword) {
+                        throw new Error('Comfirmed password is required.')
+                    } else if (this.newPassword !== this.newRePassword) {
+                        throw new Error('New password and comfirmed password is not match.')
+                    } else {
+                        throw new Error('Please fill in all the necessary information.')
+                    }
+                }
+            } catch (error) {
+                this.popupMessage({
+                    alertMessage: error.message,
+                    shouldPopup: true,
+                    type: 'error',
+                })
+            }
+        },
+        backToLogin() {
             this.$router.push({ name: 'login' })
         },
     },

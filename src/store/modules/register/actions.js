@@ -6,13 +6,27 @@ import {
     CHANGE_FORMDATAVALUE,
     POPUP_MESSAGE,
 } from '../../types'
+import apiUrl from '../../../config/apiUrl'
 
 export default {
     regist({ commit, state }) {
         commit(REQUEST_REGIST)
-        api.regist()
+
+        fetch(apiUrl[process.env.NODE_ENV]['regist'], {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                newUserName: state.registFormData.newUserName,
+                newPassword: state.registFormData.newPassword,
+                newRePassword: state.registFormData.newRePassword,
+            })
+        })
             .then(successRegistData => {
                 commit(SUCCESS_REGIST)
+
                 commit(POPUP_MESSAGE, {
                     alertMessage: '',
                     shouldPopup: true,
@@ -21,6 +35,7 @@ export default {
             })
             .catch(error => {
                 commit(FAILURE_REGIST)
+
                 commit(POPUP_MESSAGE, {
                     alertMessage: error,
                     shouldPopup: true,

@@ -6,11 +6,17 @@ export default [
         path: '/login',
         component: Login,
         name: 'login',
+        meta: {
+            title: 'Login',
+        },
     },
     {
         path: '/register',
         component: Register,
         name: 'register',
+        meta: {
+            title: 'Regist',
+        },
     },
     {
         path: '*',
